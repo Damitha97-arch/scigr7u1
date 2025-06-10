@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ශාක විවිධත්වය- ප්‍රශ්නෝත්තර</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+               * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans Sinhala', 'Iskoola Pota', 'Malithi Web', sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            line-height: 1.6;
+        }
+        
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 800px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .header {
+            background: linear-gradient(to right, #2c3e50, #4a6491);
+            color: white;
+            padding: 30px 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 2.4rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.5px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 10px;
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            background: linear-gradient(to right, #3498db, #1f6ab0);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 200px;
+            justify-content: center;
+            font-family: 'Noto Sans Sinhala', sans-serif;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(-2px);
+        }
+        
+        .btn.instructions-btn {
+            background: linear-gradient(to right, #16a085, #1abc9c);
+        }
+        
+        .btn.questions-btn {
+            background: linear-gradient(to right, #e67e22, #d35400);
+        }
+        
+        .btn.retry-btn {
+            background: linear-gradient(to right, #f39c12, #e67e22);
+        }
+        
+        .btn.next-btn {
+            background: linear-gradient(to right, #9b59b6, #8e44ad);
+        }
+        
+        .instructions {
+            text-align: justify;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin: 20px 0;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #1abc9c;
+            font-family: 'Noto Sans Sinhala', sans-serif;
+        }
+        
+        .instructions h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #2c3e50;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .instructions p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+        
+        .instructions ol {
+            padding-left: 25px;
+        }
+        
+        .instructions li {
+            margin-bottom: 12px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+        }
+        
+        .quiz, .results, .instructions {
+            display: none;
+        }
+        
+        .question {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            line-height: 1.5;
+            background: #f0f7ff;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.1);
+            font-family: 'Noto Sans Sinhala', sans-serif;
+        }
+        
+        .options {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .option {
+            padding: 18px 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid #e1e5eb;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            font-family: 'Noto Sans Sinhala', sans-serif;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .option.selected.correct {
+            background: #d4edda;
+            color: #155724;
+            border-color: #c3e6cb;
+        }
+        
+        .option.selected.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border-color: #f5c6cb;
+        }
+        
+        .option.disabled {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+        
+        .option-number {
+            background: #3498db;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        
+        .next-btn-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .progress-container {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 16px;
+            margin: 25px 0;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, #3498db, #2c3e50);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .results {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .score {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #2c3e50;
+        }
+        
+        .perfect-score {
+            color: #27ae60;
+            text-shadow: 0 2px 4px rgba(39, 174, 96, 0.3);
+        }
+        
+        .score-message {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            line-height: 1.5;
+            font-family: 'Noto Sans Sinhala', sans-serif;
+        }
+        
+        .review-container {
+            margin-top: 30px;
+            text-align: left;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            font-family: 'Noto Sans Sinhala', sans-serif;
+        }
+        
+        .review-container h3 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-size: 1.5rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 15px;
+            font-weight: 700;
+        }
+        
+        .review-item {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e1e5eb;
+        }
+        
+        .review-question {
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+        
+        .user-answer {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .user-answer.correct {
+            background: #eafaf1;
+        }
+        
+        .user-answer.incorrect {
+            background: #fdf0f2;
+        }
+        
+        .user-answer.correct i {
+            color: #27ae60;
+        }
+        
+        .user-answer.incorrect i {
+            color: #e74c3c;
+        }
+        
+        .correct-answer {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            padding: 10px;
+            background: #eafaf1;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        
+        .correct-answer i {
+            color: #27ae60;
+            margin-right: 10px;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background-color: #f00;
+            top: -10px;
+            animation: confetti-fall 3s ease-out forwards;
+            z-index: 100;
+        }
+        
+        @keyframes confetti-fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #7f8c8d;
+            font-size: 1rem;
+            border-top: 1px solid #eee;
+            font-family: 'Noto Sans Sinhala', sans-serif;
+        }
+        
+        .start-icon {
+            font-size: 5rem;
+            color: #3498db;
+            margin-bottom: 25px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 14px 20px;
+                font-size: 1.1rem;
+                width: 100%;
+                min-width: auto;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+            
+            .question {
+                font-size: 1.3rem;
+                padding: 20px 15px;
+            }
+            
+            .option {
+                padding: 15px;
+                font-size: 1rem;
+            }
+            
+            .score {
+                font-size: 2.8rem;
+            }
+            
+            .score-message {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <div class="header">
+            <h1>ශාක විවිධත්වය</h1> 
+            <p>ඔබේ දැනුම පරීක්ෂා කර බලන්න</p>
+        </div>
+        
+        <div class="content">
+            <!-- Start Screen -->
+            <div id="start-screen">
+                <div style="text-align: center; margin: 30px 0;">
+                    <div class="start-icon">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <h2 style="color: #2c3e50; margin-bottom: 20px; font-size: 1.8rem; font-weight: 700;">උපදෙස් කියවා ප්‍රශ්නවලට පිළිතුරු දෙන්න</h2>
+                    <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 30px; line-height: 1.7;">මෙම ප්‍රශ්නෝත්තරය මගින් ශාක විවිධත්වය පාඩම පිළිබඳ ඔබේ දැනුම පරීක්ෂා කරනු ලැබේ</p>
+                </div>
+                
+                <div class="btn-container">
+                    <button class="btn instructions-btn" id="instructions-btn">
+                        <i class="fas fa-info-circle"></i> උපදෙස්
+                    </button>
+                    <button class="btn questions-btn" id="questions-btn">
+                        <i class="fas fa-question-circle"></i> ප්‍රශ්න
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Instructions Screen -->
+            <div id="instructions" class="instructions">
+                <h2>ප්‍රශ්නෝත්තරය සඳහා උපදෙස්</h2>
+                <ol>
+                    <li>මෙම ප්‍රශ්නෝත්තරය ශාක විවිධත්වය පාඩමෙහි ඇතුළත් කරුණු පිළිබඳ ඔබේ දැනුම පරීක්ෂා කරයි.</li>
+                    <li>ප්‍රශ්න එකකට පිළිතුරු 4 ක් ඇත. ඔබට නිවැරදි යැයි සිතන පිළිතුර තෝරන්න.</li>
+                    <li>පිළිතුර තෝරාගත් පසු, එය වෙනස් කළ නොහැකි වන අතර පිළිතුර නිවැරදි නම් කොළ පැහැයටද හා පිළිතුර වැරදි නම් රතු පැහැයටද වෙනස් වේ.</li>
+                    <li>"ඊළඟ" බොත්තම ක්ලික් කිරීමෙන් ඊළඟ ප්‍රශ්නයට යා හැකිය.</li>
+                    <li>සියලුම ප්‍රශ්නවලට පිළිතුරු දුන් පසු, ඔබේ ලකුණු ප්‍රතිශතය පෙන්වනු ලැබේ.</li>
+                    <li>අවසානයේදී, ඔබට ඔබේ පිළිතුරු සහ නිවැරදි පිළිතුරු සමාලෝචනය කළ හැකිය.</li>
+                    <li>"නැවත උත්සාහ කරන්න" බොත්තම ක්ලික් කිරීමෙන් ප්‍රශ්නෝත්තරය නැවත ආරම්භ කළ හැකිය.</li>
+                </ol>
+                
+                <div class="btn-container">
+                    <button class="btn questions-btn" id="start-quiz-from-instructions">
+                        <i class="fas fa-play"></i> පිළිතුරු දීම ආරම්භ කරන්න
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Quiz Screen -->
+            <div id="quiz" class="quiz">
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+                
+                <div class="question" id="question"></div>
+                <div class="options" id="options"></div>
+                
+                <div class="next-btn-container">
+                    <button class="btn next-btn" id="next-btn" disabled>
+                        <i class="fas fa-arrow-right"></i> ඊළඟ
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Results Screen -->
+            <div id="results" class="results">
+                <div id="trophy-icon">
+                    <i class="fas fa-trophy" style="font-size: 5rem; color: #f1c40f;"></i>
+                </div>
+                <div class="score" id="score"></div>
+                <div class="score-message" id="score-message"></div>
+                
+                <div class="review-container" id="review-container">
+                    <h3><i class="fas fa-list-alt"></i> පිළිතුරු සමාලෝචනය</h3>
+                </div>
+                
+                <div class="btn-container" style="margin-top: 30px;">
+                    <button class="btn retry-btn" id="retry-btn">
+                        <i class="fas fa-redo"></i> නැවත උත්සාහ කරන්න
+                    </button>
+                
+<div class="btn-container" style="margin-top: 10px;">
+    <button class="btn" id="exit-btn" style="background: linear-gradient(to right, #e74c3c, #c0392b);">
+        <i class="fas fa-door-open"></i> පිටවන්න
+    </button>
+</div>
+
+</div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>© 2025 ශාක විවිධත්වය - අභ්‍යාසය</p>
+        </div>
+    </div>
+    <script>
+        // questions
+        const questions = [
+            {
+                question: "අපුෂ්ප ශාකයක් වන්නේ,",
+                options: [
+                    "අඹ",
+                    "පේර",
+                    "මඩු",
+                    "පොල්"
+                ],
+                answer: 2
+            },
+            {
+                question: "මුදුන් මූල පද්ධතියක් සහිත ශාකයකි",
+                options: [
+                    "උණ",
+                    "ඉරිඟු",
+                    "මිරිස්",
+                    "පොල්"
+                ],
+                answer: 2
+            },
+            {
+                question: "පහත දැක්වෙන ශාකයේ ඇති විශේෂිත මුල් වර්ගය හඳුනා ගන්න <br> <img src='https://drive.google.com/thumbnail?id=1n4YjefQtzz9fmTSn3s2Y0h5cdi8bIB9P&sz=800' alt='compound microscope' style='max-width:100%; height:auto; margin-top:10px;'>",
+                options: [
+                    "කරු මුල්",
+                    "කයිරු මුල්",
+                    "වායව මුල්",
+                    "ආලග්න මුල්"
+                ],
+                answer: 0
+            },
+            {
+//https://drive.google.com/file/d/19Rdb4tB59l0okO4hZyhLAkOwU1YeK5qe/view?usp=sharing
+                question: "පහත දැක්වෙන ශාකයේ ඇති විශේෂිත මුල් වර්ගය හඳුනා ගන්න <br> <img src='https://drive.google.com/thumbnail?id=19Rdb4tB59l0okO4hZyhLAkOwU1YeK5qe&sz=800' alt='වැටකෙයියා' style='max-width:100%; height:auto; margin-top:10px;'>",
+                options: [
+                    "කරු මුල්",
+                    "කයිරු මුල්",
+                    "වායව මුල්",
+                    "ආලග්න මුල්"
+                ],
+                answer: 1
+            },
+            {
+//https://drive.google.com/file/d/17RCjGMazgIl7NkL95iharo1d0r0WvI-s/view?usp=sharing
+                question: "පහත දැක්වෙන ශාකයේ ඇති විශේෂිත මුල් වර්ගය හඳුනා ගන්න <br> <img src='https://drive.google.com/thumbnail?id=17RCjGMazgIl7NkL95iharo1d0r0WvI-s&sz=800' alt='ඕකිඩ්' style='max-width:100%; height:auto; margin-top:10px;'>",
+                options: [
+                    "කරු මුල්",
+                    "කයිරු මුල්",
+                    "වායව මුල්",
+                    "ආලග්න මුල්"
+                ],
+                answer: 2
+            },
+             {
+//https://drive.google.com/file/d/15B6kX0Xz5bq84tzWQs2OuuDX5nDckX4L/view?usp=sharing
+                question: "පහත දැක්වෙන ශාකයේ ඇති විශේෂිත මුල් වර්ගය හඳුනා ගන්න <br> <img src='https://drive.google.com/thumbnail?id=15B6kX0Xz5bq84tzWQs2OuuDX5nDckX4L&sz=800' alt='බුලත්' style='max-width:100%; height:auto; margin-top:10px;'>",
+                options: [
+                    "කරු මුල්",
+                    "කයිරු මුල්",
+                    "වායව මුල්",
+                    "ආලග්න මුල්/ආරෝහක මුල්"
+                ],
+                answer: 3
+            },
+             {
+//https://drive.google.com/file/d/1elZVkfS6Dn6nfw1sclhqEERfhp6EnHRf/view?usp=sharing
+                question: "පහත දැක්වෙන ශාකයේ ඇති විශේෂිත මුල් වර්ගය හඳුනා ගන්න <br> <img src='https://drive.google.com/thumbnail?id=1elZVkfS6Dn6nfw1sclhqEERfhp6EnHRf&sz=800' alt='කිරල' style='max-width:100%; height:auto; margin-top:10px;'>",
+                options: [
+                    "වායුධර මුල්/ශ්වසන මුල්",
+                    "කයිරු මුල්",
+                    "වායව මුල්",
+                    "ආලග්න මුල්/ආරෝහක මුල්"
+                ],
+                answer: 0
+            },
+             {
+                question: "ආහාර සංචිත කරන මුල් සහිත ශාකයක් නොවන්නේ?",
+                options: [
+                    "කැරට්",
+                    "බීට්",
+                    "මඤ්ඤොක්කා",
+                    "කෙසෙල්"
+                ],
+                answer: 3
+            },
+ 	        {
+                question: "මූල ගැටිති සහිත මුල් ඇති ශාකයක් නොවන්නේ?",
+                options: [
+                    "නිදිකුම්බා",
+                    "කතුරුමුරුංගා",
+                    "බෝංචි",
+                    "මිරිස්"
+                ],
+                answer: 3
+            },
+ 	        {
+                question: " භූගත කඳක් සහිත ශාකයක් නොවන්නේ?",
+                options: [
+                    "කැරට්",
+                    "අර්තාපල්",
+                    "කිරි අල",
+                    "ලූණු"
+                ],
+                answer: 0
+            },
+	         {
+                question: "ජාලාභ නාරටි වින්‍යාසය සම්බන්ධයෙන් සත්‍ය වන්නේ?",
+                options: [
+                    "විශාල මැද නාරටියට සමාන්තරව ශාඛා නාරටි පත්‍රයෙහි විහිදී පවතියි",
+                    "විශාල මැද නාරටියෙන් පටන්ගෙන ශාඛා නාරටි පත්‍රය පුරා දැලක් මෙන් විහිදී පවතියි",
+                    "තෘණ, උණ වැනි ශාකවල දක්නට ලැබේ",
+                    "ඒකබීජපත්‍රී ශාකවල දක්නට ලැබේ"
+                ],
+                answer: 1
+            },
+	         {
+                question: "සං‍යුක්ත පත්‍ර සහිත ශාකයක් නොවන්නේ?",
+                options: [
+                    "පොල්",
+                    "මාර",
+                    "කතුරුමුරුංගා",
+                    "පැපොල්"
+                ],
+                answer: 3
+            },
+	         {
+                question: "පුෂ්පයක ජායාංගයේ කොටසක් නොවන්නේ?",
+                options: [
+                    "කලංකය",
+                    "කීලය",
+                    "ඩිම්බ කෝෂය",
+                    "සූත්‍රිකාව"
+                ],
+                answer: 3
+            }
+        ];
+        // Shuffle questions and options
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // DOM elements
+        const startScreen = document.getElementById('start-screen');
+        const instructions = document.getElementById('instructions');
+        const quiz = document.getElementById('quiz');
+        const results = document.getElementById('results');
+        const questionElement = document.getElementById('question');
+        const optionsElement = document.getElementById('options');
+        const nextButton = document.getElementById('next-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const scoreElement = document.getElementById('score');
+        const scoreMessage = document.getElementById('score-message');
+        const reviewContainer = document.getElementById('review-container');
+        const trophyIcon = document.getElementById('trophy-icon');
+        
+        // Buttons
+        const instructionsBtn = document.getElementById('instructions-btn');
+        const questionsBtn = document.getElementById('questions-btn');
+        const startQuizFromInstructions = document.getElementById('start-quiz-from-instructions');
+        const retryBtn = document.getElementById('retry-btn');
+        const exitBtn = document.getElementById('exit-btn');
+
+        // Quiz variables
+        let shuffledQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let userAnswers = [];
+
+        // Event listeners
+        instructionsBtn.addEventListener('click', showInstructions);
+        questionsBtn.addEventListener('click', startQuiz);
+        startQuizFromInstructions.addEventListener('click', startQuiz);
+        nextButton.addEventListener('click', showNextQuestion);
+        retryBtn.addEventListener('click', restartQuiz);
+        exitBtn.addEventListener('click', exitQuiz);
+
+        // Show instructions
+        function showInstructions() {
+            startScreen.style.display = 'none';
+            instructions.style.display = 'block';
+            quiz.style.display = 'none';
+            results.style.display = 'none';
+        }
+
+        // Start quiz
+        function startQuiz() {
+            // Shuffle questions and options
+            shuffledQuestions = shuffleArray([...questions]);
+            shuffledQuestions.forEach(q => {
+                const originalAnswer = q.options[q.answer];
+                q.options = shuffleArray([...q.options]);
+                q.answer = q.options.indexOf(originalAnswer);
+            });
+            
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = [];
+            
+            startScreen.style.display = 'none';
+            instructions.style.display = 'none';
+            quiz.style.display = 'block';
+            results.style.display = 'none';
+            
+            updateProgressBar();
+            showQuestion();
+        }
+
+        // Show current question
+        function showQuestion() {
+            const currentQuestion = shuffledQuestions[currentQuestionIndex];
+            questionElement.innerHTML = currentQuestion.question;
+            
+            optionsElement.innerHTML = '';
+            currentQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                
+                const optionNumber = document.createElement('div');
+                optionNumber.classList.add('option-number');
+                optionNumber.textContent = index + 1;
+                
+                const optionText = document.createElement('div');
+                optionText.textContent = option;
+                
+                optionElement.appendChild(optionNumber);
+                optionElement.appendChild(optionText);
+                
+                optionElement.addEventListener('click', () => selectOption(optionElement, index));
+                optionsElement.appendChild(optionElement);
+            });
+            
+            nextButton.disabled = true;
+        }
+
+        // Select an option
+        function selectOption(optionElement, selectedIndex) {
+            const currentQuestion = shuffledQuestions[currentQuestionIndex];
+            const options = document.querySelectorAll('.option');
+            
+            // Disable all options
+            options.forEach(option => {
+                option.classList.add('disabled');
+                option.style.pointerEvents = 'none';
+            });
+            
+            // Mark selected option
+            optionElement.classList.add('selected');
+            
+            // Check if answer is correct
+            const isCorrect = selectedIndex === currentQuestion.answer;
+            if (isCorrect) {
+                optionElement.classList.add('correct');
+                score++;
+            } else {
+                optionElement.classList.add('incorrect');
+                // Show correct answer
+                options[currentQuestion.answer].classList.add('correct');
+            }
+            
+            // Store user answer
+            userAnswers.push({
+                question: currentQuestion.question,
+                userAnswer: currentQuestion.options[selectedIndex],
+                correctAnswer: currentQuestion.options[currentQuestion.answer],
+                isCorrect: isCorrect
+            });
+            
+            // Enable next button
+            nextButton.disabled = false;
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const progress = ((currentQuestionIndex) / shuffledQuestions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Show next question or results
+        function showNextQuestion() {
+            currentQuestionIndex++;
+            updateProgressBar();
+            
+            if (currentQuestionIndex < shuffledQuestions.length) {
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Show results
+        function showResults() {
+            const percentage = Math.round((score / shuffledQuestions.length) * 100);
+            
+            quiz.style.display = 'none';
+            results.style.display = 'block';
+            
+            scoreElement.textContent = `${percentage}%`;
+            scoreMessage.textContent = `ඔබ පිළිතුරු දුන් ප්‍රශ්න ${shuffledQuestions.length} න් ${score} ක් නිවැරදියි!`;
+            
+            if (percentage === 100) {
+                scoreElement.classList.add('perfect-score');
+                scoreMessage.innerHTML = `<i class="fas fa-star"></i> පරිපූර්ණ ලකුණු! ඔබ අතිශයින්ම විශිෂ්ටයි! <i class="fas fa-star"></i>`;
+                trophyIcon.innerHTML = '<i class="fas fa-crown" style="font-size: 6rem; color: #f1c40f;"></i>';
+                createConfetti();
+            } else if (percentage >= 80) {
+                scoreMessage.textContent += " ඉතා හොඳයි!";
+                trophyIcon.innerHTML = '<i class="fas fa-medal" style="font-size: 5rem; color: #c0c0c0;"></i>';
+            } else if (percentage >= 60) {
+                scoreMessage.textContent += " හොඳයි!";
+                trophyIcon.innerHTML = '<i class="fas fa-award" style="font-size: 5rem; color: #cd7f32;"></i>';
+            } else {
+                scoreMessage.textContent = "ඔබට තවත් පුහුණුව අවශ්‍යයි. නැවත උත්සාහ කරන්න!";
+                trophyIcon.innerHTML = '<i class="fas fa-redo" style="font-size: 5rem; color: #3498db;"></i>';
+            }
+            
+            // Show review
+            reviewContainer.innerHTML = '<h3><i class="fas fa-list-alt"></i> පිළිතුරු සමාලෝචනය</h3>';
+            userAnswers.forEach((item, index) => {
+                const reviewItem = document.createElement('div');
+                reviewItem.classList.add('review-item');
+                
+                const question = document.createElement('div');
+                question.classList.add('review-question');
+                question.innerHTML = `${index + 1}. ${item.question}`;
+                
+                const userAnswer = document.createElement('div');
+                userAnswer.classList.add('user-answer', item.isCorrect ? 'correct' : 'incorrect');
+                const userIcon = document.createElement('i');
+userIcon.classList.add('fas', item.isCorrect ? 'fa-check-circle' : 'fa-times-circle');
+userAnswer.appendChild(userIcon);
+const userText = document.createTextNode(` ඔබේ පිළිතුර: ${item.userAnswer}`);
+userAnswer.appendChild(userText);
+                
+                const correctAnswer = document.createElement('div');
+                correctAnswer.classList.add('correct-answer');
+                const correctIcon = document.createElement('i');
+correctIcon.classList.add('fas', 'fa-check-circle');
+correctAnswer.appendChild(correctIcon);
+const correctText = document.createTextNode(` නිවැරදි පිළිතුර: ${item.correctAnswer}`);
+correctAnswer.appendChild(correctText);
+                
+                reviewItem.appendChild(question);
+                reviewItem.appendChild(userAnswer);
+                if (!item.isCorrect) {
+                    reviewItem.appendChild(correctAnswer);
+                }
+                
+                reviewContainer.appendChild(reviewItem);
+            });
+        }
+
+        // Create confetti animation
+        function createConfetti() {
+            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4CAF50', '#8BC34A', '#CDDC39', '#FFEB3B', '#FFC107', '#FF9800', '#FF5722'];
+            
+            for (let i = 0; i < 150; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.classList.add('confetti');
+                    confetti.style.left = Math.random() * 100 + 'vw';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = Math.random() * 10 + 5 + 'px';
+                    confetti.style.height = Math.random() * 10 + 5 + 'px';
+                    confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                    document.body.appendChild(confetti);
+                    
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 5000);
+                }, Math.random() * 1000);
+            }
+        }
+
+        
+        // Exit quiz
+        function exitQuiz() {
+            window.location.href = "https://readinggirlsl.blogspot.com/p/7.html"; // Replace with your actual blog/homepage URL
+        }
+
+        // Restart quiz
+        function restartQuiz() {
+            startScreen.style.display = 'block';
+            instructions.style.display = 'none';
+            quiz.style.display = 'none';
+            results.style.display = 'none';
+            trophyIcon.innerHTML = '<i class="fas fa-trophy" style="font-size: 5rem; color: #f1c40f;"></i>';
+        }
+    </script>
+</body>
+</html>
